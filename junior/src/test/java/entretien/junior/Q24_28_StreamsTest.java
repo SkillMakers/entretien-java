@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -89,6 +90,17 @@ class Q24_28_StreamsTest {
 
         // THEN : orElseGet ne l'a pas executee
         assertEquals(1, requetes.get());
+    }
+
+    @Test
+    @DisplayName("Q27 - get() et orElseThrow() levent la meme exception, orElseThrow() le dit")
+    void getContreOrElseThrow() {
+        // GIVEN
+        Optional<String> vide = Optional.empty();
+
+        // WHEN / THEN
+        assertThrows(NoSuchElementException.class, vide::get);
+        assertThrows(NoSuchElementException.class, vide::orElseThrow);
     }
 
     private static String chargerDepuisLaBase(AtomicInteger requetes) {

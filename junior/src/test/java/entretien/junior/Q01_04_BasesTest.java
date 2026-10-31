@@ -45,7 +45,7 @@ class Q01_04_BasesTest {
     @DisplayName("Q3 - Integer : 127 == 127 est vrai, 128 == 128 est faux (cache par defaut)")
     void cacheInteger() {
         // GIVEN : par defaut, la JVM met en cache les Integer de -128 a 127
-        // (borne haute reglable avec -XX:AutoBoxCacheMax)
+        // (borne haute reglable avec -XX:AutoBoxCacheMax, fixee a 127 dans le pom)
         Integer a = 127, b = 127;
         Integer c = 128, d = 128;
 

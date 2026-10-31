@@ -41,7 +41,8 @@ class Q12_14_EqualsHashCodeTest {
         clients.add(a);
         clients.add(b);
 
-        // THEN : le HashSet compare d'abord les hashCode ; differents, il n'appelle jamais equals
+        // THEN : le HashSet compare d'abord les hashCode ; differents, il n'appelle jamais equals.
+        // (Deux objets peuvent en theorie recevoir le meme hashCode d'Object : chance infime.)
         assertTrue(a.equals(b));
         assertNotEquals(a.hashCode(), b.hashCode());
         assertEquals(2, clients.size());

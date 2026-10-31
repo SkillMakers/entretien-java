@@ -3,12 +3,18 @@ package entretien.junior;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/** Question 29 : ce qu'un record genere, et pourquoi il n'est immuable qu'en surface. */
+/**
+ * Question 29 : ce qu'un record genere, et pourquoi il n'est immuable qu'en surface.
+ * Question 30 : le programme Java le plus court, lance sans compilation prealable.
+ */
 class Q29_30_JavaModerneTest {
 
     /** Champs final, mais la liste recue reste celle de l'appelant. */
@@ -61,5 +67,22 @@ class Q29_30_JavaModerneTest {
         // THEN
         assertEquals(List.of(), client.commandes());
         assertThrows(UnsupportedOperationException.class, () -> client.commandes().add("C-2"));
+    }
+
+    @Test
+    @DisplayName("Q30 - java Bonjour.java : void main() et IO.println, sans classe ni compilation")
+    void programmeLePlusCourt() throws IOException, InterruptedException {
+        // GIVEN : le java du JDK qui execute les tests
+        Path java = Path.of(System.getProperty("java.home"), "bin", "java");
+
+        // WHEN
+        Process process = new ProcessBuilder(java.toString(), "q30/Bonjour.java")
+                .redirectErrorStream(true)
+                .start();
+        String sortie = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        // THEN
+        assertEquals(0, process.waitFor());
+        assertEquals("Bonjour Java 25", sortie.strip());
     }
 }

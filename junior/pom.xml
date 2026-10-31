@@ -27,10 +27,21 @@
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.14.1</version>
+                <configuration>
+                    <!-- Affiche les deux avertissements montres dans la video (Q13 et Q21) -->
+                    <showWarnings>true</showWarnings>
+                    <compilerArgs>
+                        <arg>-Xlint:overrides,finally</arg>
+                    </compilerArgs>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.6</version>
+                <configuration>
+                    <!-- Q3 : fixe le cache des Integer a sa taille par defaut (-128..127) -->
+                    <argLine>-XX:AutoBoxCacheMax=127</argLine>
+                </configuration>
             </plugin>
         </plugins>
     </build>

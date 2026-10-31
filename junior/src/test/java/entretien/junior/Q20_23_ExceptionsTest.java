@@ -1,6 +1,5 @@
 package entretien.junior;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -34,6 +33,7 @@ class Q20_23_ExceptionsTest {
         assertEquals(0, resultat);
     }
 
+    // JUnit cree une instance par test : le journal repart vide a chaque fois.
     private final List<String> journal = new ArrayList<>();
 
     /** Ressource qui note sa fermeture, puis echoue en se fermant. */
@@ -49,17 +49,12 @@ class Q20_23_ExceptionsTest {
         }
     }
 
-    @BeforeEach
-    void viderJournal() {
-        journal.clear();
-    }
-
     @Test
     @DisplayName("Q22 - try-with-resources : ordre inverse et exceptions supprimees")
     @SuppressWarnings("try") // les ressources ne sont pas utilisees dans le bloc, c'est voulu
     void tryWithResources() {
         // WHEN
-        RuntimeException e = assertThrows(RuntimeException.class, () -> {
+        RuntimeException e = assertThrowsExactly(RuntimeException.class, () -> {
             try (var connexion = new Ressource("connexion");
                  var requete = new Ressource("requete")) {
                 throw new RuntimeException("erreur metier");
@@ -70,5 +65,7 @@ class Q20_23_ExceptionsTest {
         assertEquals(List.of("ferme requete", "ferme connexion"), journal);
         assertEquals("erreur metier", e.getMessage());
         assertEquals(2, e.getSuppressed().length);
+        assertEquals("echec fermeture requete", e.getSuppressed()[0].getMessage());
+        assertEquals("echec fermeture connexion", e.getSuppressed()[1].getMessage());
     }
 }
